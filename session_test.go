@@ -25,7 +25,7 @@ func TestCreateSession(t *testing.T) {
 	logger, hook := logrustest.NewNullLogger()
 	logger.SetLevel(logrus.DebugLevel)
 
-	client := veriff.NewClient("https://a.b", "", veriff.WithHTTPClient(mockHttpClient), veriff.WithLogger(logger))
+	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient), veriff.WithLogger(logger))
 
 	resp := &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(bytes.NewReader(veriffCreateSessionSuccess))}
 	mockHttpClient.On("Do", mock.AnythingOfType("*http.Request")).Return(resp, nil).Once()
@@ -41,4 +41,13 @@ func TestCreateSession(t *testing.T) {
 	require.Contains(t, hook.Entries[1].Data, "http.response.status_code")
 	require.Contains(t, hook.Entries[1].Data, "http.response.body.content")
 	require.Contains(t, hook.Entries[1].Data, "http.response.headers")
+}
+
+func TestCreateSession_RequestErr(t *testing.T) {
+	mockHttpClient := veriff.NewMockHttpClient(t)
+	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
+
+	_, err := client.CreateSession(nil, veriff.CreateSessionPayload{}) //lint:ignore SA1012 testing failure
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "failed to create request")
 }

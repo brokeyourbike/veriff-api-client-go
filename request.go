@@ -17,17 +17,3 @@ func NewRequest(r *http.Request) *request {
 func (r *request) DecodeTo(to interface{}) {
 	r.decodeTo = to
 }
-
-// AddQueryParam adds a query parameter to the request.
-func (r *request) AddQueryParam(key, value string) {
-	r.AddQueryParams(map[string]string{key: value})
-}
-
-// AddQueryParams adds multiple query parameters to the request.
-func (r *request) AddQueryParams(params map[string]string) {
-	q := r.req.URL.Query()
-	for _, k := range params {
-		q.Add(k, params[k])
-	}
-	r.req.URL.RawQuery = q.Encode()
-}
