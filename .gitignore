@@ -19,3 +19,12 @@
 
 # Go workspace file
 go.work
+
+.DS_Store
+/*.pem
+/*.json
+/mocks
+mock_*.go
+/config.toml
+/main.go
+/main_test.go
