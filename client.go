@@ -88,7 +88,6 @@ func (c *client) newRequest(ctx context.Context, method, url string, body interf
 		}).Debug("veriff.client -> request")
 	}
 
-	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-AUTH-CLIENT", c.token)
 	return NewRequest(req), nil
 }
