@@ -8,7 +8,7 @@ import (
 )
 
 type Verifier interface {
-	Verify(ctx context.Context, message []byte, signature string) error
+	Verify(ctx context.Context, message, signature string) error
 }
 
 type verifier struct {
@@ -19,11 +19,11 @@ func NewVerifier(secrets []string) *verifier {
 	return &verifier{secrets: secrets}
 }
 
-func (v *verifier) Verify(ctx context.Context, message []byte, signature string) error {
+func (v *verifier) Verify(ctx context.Context, message, signature string) error {
 	var pass bool
 	for _, secret := range v.secrets {
 		digest := hmac.New(sha256.New, []byte(secret))
-		digest.Write(message)
+		digest.Write([]byte(message))
 		computed := fmt.Sprintf("%x", digest.Sum(nil))
 
 		if computed == signature {
