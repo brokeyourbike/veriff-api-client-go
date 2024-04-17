@@ -20,20 +20,14 @@ func NewVerifier(secrets []string) *verifier {
 }
 
 func (v *verifier) Verify(ctx context.Context, message, signature string) error {
-	var pass bool
 	for _, secret := range v.secrets {
 		digest := hmac.New(sha256.New, []byte(secret))
 		digest.Write([]byte(message))
 		computed := fmt.Sprintf("%x", digest.Sum(nil))
 
 		if computed == signature {
-			pass = true
-			break
+			return nil
 		}
-	}
-
-	if pass {
-		return nil
 	}
 
 	return fmt.Errorf("signature missmatch want %s", signature)
