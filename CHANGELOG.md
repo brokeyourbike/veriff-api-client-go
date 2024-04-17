@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.2.0...v0.3.0) (2024-04-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* use event
+
+### Features
+
+* simplify check ([c6cf74c](https://www.github.com/brokeyourbike/veriff-api-client-go/commit/c6cf74c8ee18161d851fde8029f69564a5e25f37))
+
+
+### Bug Fixes
+
+* use event ([c621304](https://www.github.com/brokeyourbike/veriff-api-client-go/commit/c6213043a15594bf0f5f67cd266d0ce591dc479f))
+
 ## [0.2.0](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.1.1...v0.2.0) (2024-02-18)
 
 
