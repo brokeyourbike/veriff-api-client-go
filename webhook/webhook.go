@@ -7,7 +7,7 @@ type IncomingVerificationEvent struct {
 	VendorData string `json:"vendorData" validate:"required"`
 }
 
-type IncomingDecision struct {
+type IncomingDecisionEvent struct {
 	Status       string `json:"status" validate:"required"`
 	Verification struct {
 		ID         string `json:"id" validate:"required"`
