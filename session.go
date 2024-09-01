@@ -40,3 +40,76 @@ func (c *client) CreateSession(ctx context.Context, payload CreateSessionPayload
 	req.DecodeTo(&data)
 	return data, c.do(ctx, req)
 }
+
+type SessionDecisionResponse struct {
+	Status       string `json:"status"`
+	Verification struct {
+		ID     string `json:"id"`
+		Code   int    `json:"code"`
+		Status string `json:"status"`
+		Person struct {
+			FirstName   string `json:"firstName"`
+			LastName    string `json:"lastName"`
+			DateOfBirth Time   `json:"dateOfBirth"`
+		} `json:"person"`
+		Document struct {
+			Type                string `json:"type"`
+			Number              string `json:"number"`
+			Country             string `json:"country"`
+			Remarks             string `json:"remarks"`
+			State               string `json:"state"`
+			PlaceOfIssue        string `json:"placeOfIssue"`
+			ValidUntil          Time   `json:"validUntil"`
+			FirstIssue          Time   `json:"firstIssue"`
+			IssueNumber         string `json:"issueNumber"`
+			IssuedBy            string `json:"issuedBy"`
+			NfcValidated        string `json:"nfcValidated"`
+			ResidencePermitType string `json:"residencePermitType"`
+			PortraitIsVisible   string `json:"portraitIsVisible"`
+			SignatureIsVisible  string `json:"signatureIsVisible"`
+		} `json:"document"`
+	} `json:"verification"`
+}
+
+func (c *client) SessionDecision(ctx context.Context, sessionID string) (data SessionDecisionResponse, err error) {
+	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/sessions/%s/decision", sessionID), nil)
+	if err != nil {
+		return data, fmt.Errorf("failed to create request: %w", err)
+	}
+
+	req.DecodeTo(&data)
+	return data, c.do(ctx, req)
+}
+
+type SessionMediaResponse struct {
+	Status string `json:"status"`
+	Videos []struct {
+		ID        string `json:"id"`
+		SessionID string `json:"sessionId"`
+		Context   string `json:"context"`
+		Duration  string `json:"duration"`
+		Mimetype  string `json:"mimetype"`
+		Name      string `json:"name"`
+		Size      string `json:"size"`
+		URL       string `json:"url"`
+	} `json:"videos"`
+	Images []struct {
+		ID        string `json:"id"`
+		SessionID string `json:"sessionId"`
+		Context   string `json:"context"`
+		Mimetype  string `json:"mimetype"`
+		Name      string `json:"name"`
+		URL       string `json:"url"`
+		Size      string `json:"size"`
+	} `json:"images"`
+}
+
+func (c *client) SessionMedia(ctx context.Context, sessionID string) (data SessionMediaResponse, err error) {
+	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/sessions/%s/media", sessionID), nil)
+	if err != nil {
+		return data, fmt.Errorf("failed to create request: %w", err)
+	}
+
+	req.DecodeTo(&data)
+	return data, c.do(ctx, req)
+}

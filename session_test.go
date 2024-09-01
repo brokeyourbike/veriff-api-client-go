@@ -16,6 +16,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+//go:embed testdata/decision.json
+var decisionMsg []byte
+
 //go:embed testdata/veriff-create-session-success.json
 var veriffCreateSessionSuccess []byte
 
@@ -48,6 +51,36 @@ func TestCreateSession_RequestErr(t *testing.T) {
 	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
 
 	_, err := client.CreateSession(nil, veriff.CreateSessionPayload{}) //lint:ignore SA1012 testing failure
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "failed to create request")
+}
+
+func TestSessionDecision(t *testing.T) {
+	mockHttpClient := veriff.NewMockHttpClient(t)
+	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
+
+	resp := &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(bytes.NewReader(decisionMsg))}
+	mockHttpClient.On("Do", mock.AnythingOfType("*http.Request")).Return(resp, nil).Once()
+
+	got, err := client.SessionDecision(context.TODO(), "")
+	require.NoError(t, err)
+	assert.Equal(t, "success", got.Status)
+}
+
+func TestSessionDecision_RequestErr(t *testing.T) {
+	mockHttpClient := veriff.NewMockHttpClient(t)
+	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
+
+	_, err := client.SessionDecision(nil, "") //lint:ignore SA1012 testing failure
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "failed to create request")
+}
+
+func TestSessionMedia_RequestErr(t *testing.T) {
+	mockHttpClient := veriff.NewMockHttpClient(t)
+	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
+
+	_, err := client.SessionMedia(nil, "") //lint:ignore SA1012 testing failure
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "failed to create request")
 }
