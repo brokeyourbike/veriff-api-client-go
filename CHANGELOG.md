@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.3.0...v0.4.0) (2024-09-01)
+
+
+### Features
+
+* decision and media ([5371015](https://www.github.com/brokeyourbike/veriff-api-client-go/commit/5371015f7d4ae2226173758f81925b935b4f3d5d))
+
 ## [0.3.0](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.2.0...v0.3.0) (2024-04-17)
 
 
