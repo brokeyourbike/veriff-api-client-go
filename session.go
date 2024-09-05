@@ -32,7 +32,7 @@ type CreateSessionResponse struct {
 }
 
 func (c *client) CreateSession(ctx context.Context, payload CreateSessionPayload) (data CreateSessionResponse, err error) {
-	req, err := c.newRequest(ctx, http.MethodPost, "/v1/sessions", payload)
+	req, err := c.newRequest(ctx, http.MethodPost, "/v1/sessions", payload, "")
 	if err != nil {
 		return data, fmt.Errorf("failed to create request: %w", err)
 	}
@@ -72,7 +72,7 @@ type SessionDecisionResponse struct {
 }
 
 func (c *client) SessionDecision(ctx context.Context, sessionID string) (data SessionDecisionResponse, err error) {
-	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/sessions/%s/decision", sessionID), nil)
+	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/sessions/%s/decision", sessionID), nil, sessionID)
 	if err != nil {
 		return data, fmt.Errorf("failed to create request: %w", err)
 	}
@@ -105,7 +105,7 @@ type SessionMediaResponse struct {
 }
 
 func (c *client) SessionMedia(ctx context.Context, sessionID string) (data SessionMediaResponse, err error) {
-	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/sessions/%s/media", sessionID), nil)
+	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/sessions/%s/media", sessionID), nil, sessionID)
 	if err != nil {
 		return data, fmt.Errorf("failed to create request: %w", err)
 	}

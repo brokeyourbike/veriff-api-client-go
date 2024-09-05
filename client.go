@@ -63,7 +63,7 @@ func NewClient(baseURL, token, secret string, options ...ClientOption) *client {
 	return c
 }
 
-func (c *client) newRequest(ctx context.Context, method, url string, body interface{}) (*request, error) {
+func (c *client) newRequest(ctx context.Context, method, url string, body interface{}, hashParam string) (*request, error) {
 	req, err := http.NewRequestWithContext(ctx, method, c.baseURL+url, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %w", err)
@@ -90,8 +90,14 @@ func (c *client) newRequest(ctx context.Context, method, url string, body interf
 		}).Debug("veriff.client -> request")
 	}
 
+	switch method {
+	case http.MethodPost, http.MethodPatch:
+		req.Header.Set("X-HMAC-SIGNATURE", SignPayload(c.secret, string(b)))
+	default:
+		req.Header.Set("X-HMAC-SIGNATURE", SignPayload(c.secret, hashParam))
+	}
+
 	req.Header.Set("X-AUTH-CLIENT", c.token)
-	req.Header.Set("X-HMAC-SIGNATURE", SignPayload(c.secret, string(b)))
 	return NewRequest(req), nil
 }
 
