@@ -17,7 +17,10 @@ type HttpClient interface {
 }
 
 type Client interface {
-	CreateSession(ctx context.Context, payload CreateSessionPayload) (data CreateSessionResponse, err error)
+	CreateSession(ctx context.Context, payload CreateSessionPayload) (CreateSessionResponse, error)
+	SessionDecision(ctx context.Context, sessionID string) (SessionDecisionResponse, error)
+	SessionMedia(ctx context.Context, sessionID string) (SessionMediaResponse, error)
+	DownloadMedia(ctx context.Context, mediaID string, dst io.Writer) error
 }
 
 var _ Client = (*client)(nil)

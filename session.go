@@ -115,7 +115,7 @@ func (c *client) SessionMedia(ctx context.Context, sessionID string) (data Sessi
 	return data, c.do(ctx, req)
 }
 
-func (c *client) DownloadMedia(ctx context.Context, mediaID string, dst io.Writer) (err error) {
+func (c *client) DownloadMedia(ctx context.Context, mediaID string, dst io.Writer) error {
 	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/media/%s", mediaID), nil, mediaID)
 	if err != nil {
 		return fmt.Errorf("failed to create request: %w", err)
