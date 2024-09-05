@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.5.0...v0.6.0) (2024-09-05)
+
+
+### Features
+
+* pipe ([84c2795](https://www.github.com/brokeyourbike/veriff-api-client-go/commit/84c2795316bb6678f9404c47923814babb8838c8))
+
+
+### Bug Fixes
+
+* interface ([c4a6b9d](https://www.github.com/brokeyourbike/veriff-api-client-go/commit/c4a6b9d754dd641b6f643b58687b0d96d6e8a01e))
+
 ## [0.5.0](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.4.0...v0.5.0) (2024-09-05)
 
 
