@@ -1,6 +1,7 @@
 package veriff
 
 import (
+	"io"
 	"net/http"
 )
 
@@ -8,6 +9,7 @@ import (
 type request struct {
 	req      *http.Request
 	decodeTo interface{}
+	pipeTo   io.Writer
 }
 
 func NewRequest(r *http.Request) *request {
@@ -16,4 +18,8 @@ func NewRequest(r *http.Request) *request {
 
 func (r *request) DecodeTo(to interface{}) {
 	r.decodeTo = to
+}
+
+func (r *request) PipeTo(to io.Writer) {
+	r.pipeTo = to
 }

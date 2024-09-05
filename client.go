@@ -127,5 +127,11 @@ func (c *client) do(ctx context.Context, req *request) error {
 		}
 	}
 
+	if req.pipeTo != nil {
+		if _, err := io.Copy(req.pipeTo, bytes.NewReader(b)); err != nil {
+			return fmt.Errorf("failed to pipe response: %w", err)
+		}
+	}
+
 	return nil
 }

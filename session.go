@@ -3,6 +3,7 @@ package veriff
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -84,14 +85,14 @@ func (c *client) SessionDecision(ctx context.Context, sessionID string) (data Se
 type SessionMediaResponse struct {
 	Status string `json:"status"`
 	Videos []struct {
-		ID        string `json:"id"`
-		SessionID string `json:"sessionId"`
-		Context   string `json:"context"`
-		Duration  string `json:"duration"`
-		Mimetype  string `json:"mimetype"`
-		Name      string `json:"name"`
-		Size      string `json:"size"`
-		URL       string `json:"url"`
+		ID        string  `json:"id"`
+		SessionID string  `json:"sessionId"`
+		Context   string  `json:"context"`
+		Duration  float64 `json:"duration"`
+		Mimetype  string  `json:"mimetype"`
+		Name      string  `json:"name"`
+		Size      int64   `json:"size"`
+		URL       string  `json:"url"`
 	} `json:"videos"`
 	Images []struct {
 		ID        string `json:"id"`
@@ -100,7 +101,7 @@ type SessionMediaResponse struct {
 		Mimetype  string `json:"mimetype"`
 		Name      string `json:"name"`
 		URL       string `json:"url"`
-		Size      string `json:"size"`
+		Size      int64  `json:"size"`
 	} `json:"images"`
 }
 
@@ -112,4 +113,14 @@ func (c *client) SessionMedia(ctx context.Context, sessionID string) (data Sessi
 
 	req.DecodeTo(&data)
 	return data, c.do(ctx, req)
+}
+
+func (c *client) DownloadMedia(ctx context.Context, mediaID string, dst io.Writer) (err error) {
+	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/media/%s", mediaID), nil, mediaID)
+	if err != nil {
+		return fmt.Errorf("failed to create request: %w", err)
+	}
+
+	req.PipeTo(dst)
+	return c.do(ctx, req)
 }
