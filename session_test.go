@@ -28,7 +28,7 @@ func TestCreateSession(t *testing.T) {
 	logger, hook := logrustest.NewNullLogger()
 	logger.SetLevel(logrus.DebugLevel)
 
-	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient), veriff.WithLogger(logger))
+	client := veriff.NewClient("https://a.b", "token", "secret", veriff.WithHTTPClient(mockHttpClient), veriff.WithLogger(logger))
 
 	resp := &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(bytes.NewReader(veriffCreateSessionSuccess))}
 	mockHttpClient.On("Do", mock.AnythingOfType("*http.Request")).Return(resp, nil).Once()
@@ -48,7 +48,7 @@ func TestCreateSession(t *testing.T) {
 
 func TestCreateSession_RequestErr(t *testing.T) {
 	mockHttpClient := veriff.NewMockHttpClient(t)
-	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
+	client := veriff.NewClient("https://a.b", "token", "secret", veriff.WithHTTPClient(mockHttpClient))
 
 	_, err := client.CreateSession(nil, veriff.CreateSessionPayload{}) //lint:ignore SA1012 testing failure
 	require.Error(t, err)
@@ -57,7 +57,7 @@ func TestCreateSession_RequestErr(t *testing.T) {
 
 func TestSessionDecision(t *testing.T) {
 	mockHttpClient := veriff.NewMockHttpClient(t)
-	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
+	client := veriff.NewClient("https://a.b", "token", "secret", veriff.WithHTTPClient(mockHttpClient))
 
 	resp := &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(bytes.NewReader(decisionMsg))}
 	mockHttpClient.On("Do", mock.AnythingOfType("*http.Request")).Return(resp, nil).Once()
@@ -69,7 +69,7 @@ func TestSessionDecision(t *testing.T) {
 
 func TestSessionDecision_RequestErr(t *testing.T) {
 	mockHttpClient := veriff.NewMockHttpClient(t)
-	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
+	client := veriff.NewClient("https://a.b", "token", "secret", veriff.WithHTTPClient(mockHttpClient))
 
 	_, err := client.SessionDecision(nil, "") //lint:ignore SA1012 testing failure
 	require.Error(t, err)
@@ -78,7 +78,7 @@ func TestSessionDecision_RequestErr(t *testing.T) {
 
 func TestSessionMedia_RequestErr(t *testing.T) {
 	mockHttpClient := veriff.NewMockHttpClient(t)
-	client := veriff.NewClient("https://a.b", "token", veriff.WithHTTPClient(mockHttpClient))
+	client := veriff.NewClient("https://a.b", "token", "secret", veriff.WithHTTPClient(mockHttpClient))
 
 	_, err := client.SessionMedia(nil, "") //lint:ignore SA1012 testing failure
 	require.Error(t, err)

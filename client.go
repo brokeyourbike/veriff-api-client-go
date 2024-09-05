@@ -27,6 +27,7 @@ type client struct {
 	logger     *logrus.Logger
 	baseURL    string
 	token      string
+	secret     string
 }
 
 // ClientOption is a function that configures a Client.
@@ -46,10 +47,11 @@ func WithLogger(l *logrus.Logger) ClientOption {
 	}
 }
 
-func NewClient(baseURL, token string, options ...ClientOption) *client {
+func NewClient(baseURL, token, secret string, options ...ClientOption) *client {
 	c := &client{
 		baseURL: strings.TrimSuffix(baseURL, "/"),
 		token:   token,
+		secret:  secret,
 	}
 
 	c.httpClient = http.DefaultClient
@@ -89,6 +91,7 @@ func (c *client) newRequest(ctx context.Context, method, url string, body interf
 	}
 
 	req.Header.Set("X-AUTH-CLIENT", c.token)
+	req.Header.Set("X-HMAC-SIGNATURE", SignPayload(c.secret, string(b)))
 	return NewRequest(req), nil
 }
 
