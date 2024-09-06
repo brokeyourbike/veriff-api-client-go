@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.6.1](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.6.0...v0.6.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* parse incomplete ([e95a263](https://www.github.com/brokeyourbike/veriff-api-client-go/commit/e95a2635c8dd70103997f0ae17a3773e4ef2ccca))
+
 ## [0.6.0](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.5.0...v0.6.0) (2024-09-05)
 
 
