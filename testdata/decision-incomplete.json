@@ -1,0 +1,39 @@
+{
+    "status": "success",
+    "verification": {
+        "id": "c30b78d5-5d88-44cf-b18d-82b3d84aa614",
+        "code": 9001,
+        "person": {
+            "gender": null,
+            "idNumber": null,
+            "lastName": "John",
+            "firstName": "Doe",
+            "citizenship": null,
+            "dateOfBirth": null,
+            "nationality": null,
+            "yearOfBirth": null,
+            "placeOfBirth": null,
+            "pepSanctionMatch": null
+        },
+        "reason": null,
+        "status": "approved",
+        "comments": [],
+        "document": {
+            "type": "PASSPORT",
+            "state": null,
+            "number": null,
+            "country": "NG",
+            "validFrom": null,
+            "validUntil": null
+        },
+        "endUserId": null,
+        "reasonCode": null,
+        "vendorData": "0000000",
+        "decisionTime": "2024-09-06T21:11:48.476108Z",
+        "acceptanceTime": "2023-05-26T18:00:37.741728Z",
+        "additionalVerifiedData": {}
+    },
+    "technicalData": {
+        "ip": "0.0.0.0"
+    }
+}

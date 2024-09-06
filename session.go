@@ -51,23 +51,17 @@ type SessionDecisionResponse struct {
 		Person struct {
 			FirstName   string `json:"firstName"`
 			LastName    string `json:"lastName"`
-			DateOfBirth Time   `json:"dateOfBirth"`
+			DateOfBirth *Time  `json:"dateOfBirth"`
+			Nationality string `json:"nationality"`
 		} `json:"person"`
 		Document struct {
-			Type                string `json:"type"`
-			Number              string `json:"number"`
-			Country             string `json:"country"`
-			Remarks             string `json:"remarks"`
-			State               string `json:"state"`
-			PlaceOfIssue        string `json:"placeOfIssue"`
-			ValidUntil          Time   `json:"validUntil"`
-			FirstIssue          Time   `json:"firstIssue"`
-			IssueNumber         string `json:"issueNumber"`
-			IssuedBy            string `json:"issuedBy"`
-			NfcValidated        string `json:"nfcValidated"`
-			ResidencePermitType string `json:"residencePermitType"`
-			PortraitIsVisible   string `json:"portraitIsVisible"`
-			SignatureIsVisible  string `json:"signatureIsVisible"`
+			Type       string `json:"type"`
+			Number     string `json:"number"`
+			Remarks    string `json:"remarks"`
+			Country    string `json:"country"`
+			State      string `json:"state"`
+			ValidFrom  *Time  `json:"validFrom"`
+			ValidUntil *Time  `json:"validUntil"`
 		} `json:"document"`
 	} `json:"verification"`
 }

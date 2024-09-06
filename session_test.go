@@ -19,6 +19,9 @@ import (
 //go:embed testdata/decision.json
 var decisionMsg []byte
 
+//go:embed testdata/decision-incomplete.json
+var decisionIncompleteMsg []byte
+
 //go:embed testdata/veriff-create-session-success.json
 var veriffCreateSessionSuccess []byte
 
@@ -65,6 +68,24 @@ func TestSessionDecision(t *testing.T) {
 	got, err := client.SessionDecision(context.TODO(), "")
 	require.NoError(t, err)
 	assert.Equal(t, "success", got.Status)
+	assert.NotNil(t, got.Verification.Person.DateOfBirth)
+	assert.Nil(t, got.Verification.Document.ValidFrom)
+	assert.NotNil(t, got.Verification.Document.ValidUntil)
+}
+
+func TestSessionDecision_Incomplete(t *testing.T) {
+	mockHttpClient := veriff.NewMockHttpClient(t)
+	client := veriff.NewClient("https://a.b", "token", "secret", veriff.WithHTTPClient(mockHttpClient))
+
+	resp := &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(bytes.NewReader(decisionIncompleteMsg))}
+	mockHttpClient.On("Do", mock.AnythingOfType("*http.Request")).Return(resp, nil).Once()
+
+	got, err := client.SessionDecision(context.TODO(), "")
+	require.NoError(t, err)
+	assert.Equal(t, "success", got.Status)
+	assert.Nil(t, got.Verification.Person.DateOfBirth)
+	assert.Nil(t, got.Verification.Document.ValidFrom)
+	assert.Nil(t, got.Verification.Document.ValidUntil)
 }
 
 func TestSessionDecision_RequestErr(t *testing.T) {
