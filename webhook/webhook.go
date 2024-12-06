@@ -1,5 +1,7 @@
 package webhook
 
+import "github.com/brokeyourbike/veriff-api-client-go"
+
 type IncomingVerificationEvent struct {
 	Status     string `json:"status" validate:"required"`
 	Code       int    `json:"code" validate:"required"`
@@ -14,5 +16,11 @@ type IncomingDecisionEvent struct {
 		Code       int    `json:"code" validate:"required"`
 		Status     string `json:"status" validate:"required"`
 		VendorData string `json:"vendorData"`
+		Document   struct {
+			Type       string       `json:"type"`
+			Number     string       `json:"number"`
+			Country    string       `json:"country"`
+			ValidUntil *veriff.Time `json:"validUntil"`
+		} `json:"document"`
 	} `json:"verification" validate:"required"`
 }
