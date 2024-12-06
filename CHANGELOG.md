@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.6.1...v0.7.0) (2024-12-06)
+
+
+### Features
+
+* document ([1fa0233](https://www.github.com/brokeyourbike/veriff-api-client-go/commit/1fa023335caba639aa4a042ad5812ef6d7a12365))
+
 ### [0.6.1](https://www.github.com/brokeyourbike/veriff-api-client-go/compare/v0.6.0...v0.6.1) (2024-09-06)
 
 
